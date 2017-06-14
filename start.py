@@ -1,20 +1,10 @@
 #!/usr/bin/python
-import os,sys,commands,time,socket,getpass
+import os,sys,commands,time,socket
 s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sip="192.168.122.62"
-sport=8888
-print "cloud servers reloaded...enter authentication details:"
-suser=raw_input("enter username : ")
-spassword=getpass.getpass()
-s.sendto(suser,(sip,sport))
-s.sendto(spassword,(sip,sport))
-sdata=s.recvfrom(2)
-if sdata[0]=="ok":
-	print "authentication done"
-	print "wait for services"
-	time.sleep(2)
-	execfile('saas.py')
-else:
-	print "check your user details"
-exit()
+s.bind(("",8888))
+cdata=s.recvfrom(100)
+cdata1=s.recvfrom(100)
+if cdata[0] == 'test' and cdata1[0] == '123':
+	s.sendto("ok",cdata[1])
+
 
